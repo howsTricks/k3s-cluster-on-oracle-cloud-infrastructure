@@ -1,3 +1,13 @@
+terraform {
+  required_version = ">= 1.0.0"
+  required_providers {
+    oci = {
+      source  = "oracle/oci"
+      version = ">= 3.70.0"
+    }
+  }
+}
+
 resource "oci_core_vcn" "cluster_network" {
   compartment_id = var.compartment_id
 
