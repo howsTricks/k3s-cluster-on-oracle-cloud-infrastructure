@@ -35,8 +35,8 @@ locals {
     ocpus    = 2
     ram      = 12
 
-    // Canonical-Ubuntu-22.04-Minimal-aarch64-2022.11.05-0 eu-frankfurt-1
-    source_id   = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaapb65ywn23pl6t6dzc2bk56k4azbvnmsndcr6bfmn5eoei5toc53a"
+    // Canonical-Ubuntu-22.04-Minimal-aarch64-2022.11.05-0 us-sanjose-1	
+    source_id   = "ocid1.image.oc1.us-sanjose-1.aaaaaaaak6owxhfqa333m7w6lu2fexqq5lqzfazmzt5xmvjiczagfnwfimnq"
     source_type = "image"
 
     metadata = {
@@ -48,8 +48,8 @@ locals {
     ocpus    = 1
     ram      = 1
 
-    // Canonical-Ubuntu-22.04-Minimal-aarch64-2022.11.05-0 eu-frankfurt-1
-    source_id   = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaapb65ywn23pl6t6dzc2bk56k4azbvnmsndcr6bfmn5eoei5toc53a"
+    // Canonical-Ubuntu-22.04-Minimal-2023.02.14-0 us-sanjose-1
+    source_id   = "ocid1.image.oc1.us-sanjose-1.aaaaaaaaw5ftoxuwoycpgmvtoqpz4mb664l6jgdivaslwuiljlqzehc7hwsq"
     source_type = "image"
 
     metadata = {

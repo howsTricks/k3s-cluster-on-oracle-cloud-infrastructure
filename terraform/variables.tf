@@ -8,13 +8,8 @@ variable "fingerprint" {
   type        = string
 }
 
-variable "private_key" {
+variable "private_key_path" {
   description = "Private key to use for signing"
-  type        = string
-}
-
-variable "private_key_password" {
-  description = "Password for private key to use for signing"
   type        = string
 }
 
@@ -41,6 +36,6 @@ variable "ssh_authorized_keys" {
 
 locals {
   cidr_blocks            = ["10.0.0.0/24"]
-  ssh_managemnet_network = "1.1.1.1/32"
+  ssh_managemnet_network = "47.7.51.13/32"
 }
 
