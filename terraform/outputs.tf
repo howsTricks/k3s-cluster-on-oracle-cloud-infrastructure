@@ -1,5 +1,5 @@
-output "permit_ssh" {
-  value = module.network.permit_ssh_output
+output "permit_ssh_ip" {
+  value = module.network.permit_ssh_ip
 }
 
 
