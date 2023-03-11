@@ -7,10 +7,10 @@ terraform {
     }
   }
 }
-
-resource "oci_core_instance" "server_0" {
+/*
+resource "oci_core_instance" "server_2" {
   compartment_id      = var.compartment_id
-  availability_domain = data.oci_identity_availability_domain.ad_3.name
+  availability_domain = data.oci_identity_availability_domain.ad_1.name
   display_name        = "k3s_server_0"
   shape               = local.ampere_instance_config.shape_id
   source_details {
@@ -23,7 +23,7 @@ resource "oci_core_instance" "server_0" {
   }
   create_vnic_details {
     subnet_id  = var.cluster_subnet_id
-    private_ip = cidrhost(var.cidr_blocks[0], 10)
+    private_ip = cidrhost(var.cidr_blocks[0], 12)
     nsg_ids    = [var.permit_ssh_nsg_id]
   }
   metadata = {
@@ -31,16 +31,16 @@ resource "oci_core_instance" "server_0" {
     "user_data" = base64encode(
       templatefile("${path.module}/templates/server.sh",
         {
-          server_0_ip = cidrhost(var.cidr_blocks[0],10),
+          server_0_ip = cidrhost(var.cidr_blocks[0], 10),
           token       = random_string.cluster_token.result
       })
     )
   }
 }
 
-resource "oci_core_instance" "server_1" {
+resource "oci_core_instance" "server_3" {
   compartment_id      = var.compartment_id
-  availability_domain = data.oci_identity_availability_domain.ad_3.name
+  availability_domain = data.oci_identity_availability_domain.ad_1.name
   display_name        = "k3s_server_1"
   shape               = local.ampere_instance_config.shape_id
   source_details {
@@ -53,7 +53,7 @@ resource "oci_core_instance" "server_1" {
   }
   create_vnic_details {
     subnet_id  = var.cluster_subnet_id
-    private_ip = cidrhost(var.cidr_blocks[0], 11)
+    private_ip = cidrhost(var.cidr_blocks[0], 13)
     nsg_ids    = [var.permit_ssh_nsg_id]
   }
   metadata = {
@@ -68,12 +68,12 @@ resource "oci_core_instance" "server_1" {
   }
   depends_on = [oci_core_instance.server_0]
 }
+*/
 
-resource "oci_core_instance" "server_2_3" {
-  count               = 2
+resource "oci_core_instance" "server_0" {
   compartment_id      = var.compartment_id
   availability_domain = data.oci_identity_availability_domain.ad_1.name
-  display_name        = "k3s_server_${count.index + 2}"
+  display_name        = "k3s_server_0"
   shape               = local.micro_instance_config.shape_id
   source_details {
     source_id   = local.micro_instance_config.source_id
@@ -85,17 +85,39 @@ resource "oci_core_instance" "server_2_3" {
   }
   create_vnic_details {
     subnet_id  = var.cluster_subnet_id
-    private_ip = cidrhost(var.cidr_blocks[0], count.index + 20)
+    private_ip = cidrhost(var.cidr_blocks[0], 10)
     nsg_ids    = [var.permit_ssh_nsg_id]
   }
   metadata = {
     "ssh_authorized_keys" = local.micro_instance_config.metadata.ssh_authorized_keys
-    "user_data" = base64encode(
-      templatefile("${path.module}/templates/server.sh",
-        {
-          server_0_ip = oci_core_instance.server_0.private_ip,
-          token       = random_string.cluster_token.result,
-    }))
+    "user_data"           = base64encode("${path.module}/templates/server.sh")
   }
-  depends_on = [oci_core_instance.server_1]
+  #depends_on = [oci_core_instance.server_1]
 }
+
+
+resource "oci_core_instance" "server_1" {
+  compartment_id      = var.compartment_id
+  availability_domain = data.oci_identity_availability_domain.ad_1.name
+  display_name        = "k3s_server_1"
+  shape               = local.micro_instance_config.shape_id
+  source_details {
+    source_id   = local.micro_instance_config.source_id
+    source_type = local.micro_instance_config.source_type
+  }
+  shape_config {
+    memory_in_gbs = local.micro_instance_config.ram
+    ocpus         = local.micro_instance_config.ocpus
+  }
+  create_vnic_details {
+    subnet_id  = var.cluster_subnet_id
+    private_ip = cidrhost(var.cidr_blocks[0], 11)
+    nsg_ids    = [var.permit_ssh_nsg_id]
+  }
+  metadata = {
+    "ssh_authorized_keys" = local.micro_instance_config.metadata.ssh_authorized_keys
+    "user_data"           = base64encode("${path.module}/templates/server.sh")
+  }
+  #depends_on = [oci_core_instance.server_1]
+}
+
